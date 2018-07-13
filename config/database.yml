@@ -1,0 +1,6 @@
+development:
+  adapter: postgresql
+  database: todo
+  username: sinatra
+  password: 12121915
+  host: localhost
