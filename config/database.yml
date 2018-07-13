@@ -1,6 +1,13 @@
-development:
+default:
   adapter: postgresql
-  database: todo
   username: sinatra
   password: 12121915
   host: localhost
+
+development:
+  <<: *default
+  database: todo
+
+production:
+  <<: *default
+  database: todo_production
