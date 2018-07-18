@@ -16,7 +16,7 @@ get '/lists' do
 end
 
 get '/lists/:id' do
-  List.where(id: params['id']).first.to_json(include: :tasks)
+  List.find(params['id']).to_json(include: :tasks)
 end
 
 post '/lists' do
@@ -30,11 +30,11 @@ post '/lists' do
 end
 
 put '/lists/:id' do
-  list = List.where(id: params['id']).first
+  list = List.find(params['id'])
 
   if list
-    list.name = params['name'] if params.has_key?('name')
-    list.color = params['color'] if params.has_key?('color')
+    list.name = params.fetch('name', nil)
+    list.color = params.fetch('color', nil)
 
     if list.save
       list.to_json
@@ -45,10 +45,10 @@ put '/lists/:id' do
 end
 
 delete '/lists/:id' do
-  list = List.where(id: params['id'])
+  list = List.find(params['id'])
 
   if list.destroy_all
-    {success: "ok"}.to_json
+    {success: 'ok'}.to_json
   else
     halt 500
   end
@@ -59,7 +59,7 @@ get '/tasks' do
 end
 
 get '/tasks/:id' do
-  Task.where(id: params['id']).first.to_json
+  Task.find(params['id']).to_json
 end
 
 post '/tasks' do
@@ -73,10 +73,10 @@ post '/tasks' do
 end
 
 put '/tasks/:id' do
-  task = Task.where(id: params['id']).first
+  task = Task.find(params['id'])
 
   if task
-    task.name = params['name'] if params.has_key?('name')
+    task.name = params.fetch('name', nil)
 
     if task.save
       task.to_json
@@ -87,10 +87,10 @@ put '/tasks/:id' do
 end
 
 delete '/tasks/:id' do
-  task = Task.where(id: params['id'])
+  task = Task.find(params['id'])
 
   if task.destroy_all
-    {success: "ok"}.to_json
+    {success: 'ok'}.to_json
   else
     halt 500
   end
